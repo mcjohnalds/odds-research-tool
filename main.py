@@ -95,6 +95,7 @@ class Game(TypedDict):
     home_rank_total: int | None
     away_rank: int | None
     away_rank_total: int | None
+    conference: str | None
     odds: GameOdds | None
     undervalued: str | None
 
@@ -220,6 +221,14 @@ def build_games(data: SportsData) -> list[Game]:
         home_rank_total = home_ranking["group_size"] if home_ranking else None
         away_rank = away_ranking["rank"] if away_ranking else None
         away_rank_total = away_ranking["group_size"] if away_ranking else None
+        home_group = home_ranking["group"] if home_ranking else None
+        away_group = away_ranking["group"] if away_ranking else None
+        if home_group == away_group:
+            conference = home_group
+        elif home_group and away_group:
+            conference = f"{home_group} / {away_group}"
+        else:
+            conference = home_group or away_group
         game_odds = odds.get(fixture_id)
         undervalued = None
         same_group = bool(
@@ -254,6 +263,7 @@ def build_games(data: SportsData) -> list[Game]:
                 "home_rank_total": home_rank_total,
                 "away_rank": away_rank,
                 "away_rank_total": away_rank_total,
+                "conference": conference,
                 "odds": game_odds,
                 "undervalued": undervalued,
             }

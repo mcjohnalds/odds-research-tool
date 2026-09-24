@@ -39,6 +39,7 @@
         <th class="number">Home Rank</th>
         <th>Away Team</th>
         <th class="number">Away Rank</th>
+        <th>Conference</th>
         <th class="number">Home Odds</th>
         <th class="number">Away Odds</th>
         <th class="number">Draw Odds</th>
@@ -60,6 +61,9 @@
           {% if game.away_rank %}
           {{ game.away_rank }}/{{ game.away_rank_total }}
           {% else %}—{% endif %}
+        </td>
+        <td>
+          {% if game.conference %}{{ game.conference }}{% else %}—{% endif %}
         </td>
         <td class="number">
           {% if game.odds %}{{ game.odds.home }}{% else %}—{% endif %}
