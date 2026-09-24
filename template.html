@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ league }} odds research</title>
+  <style>
+    body {
+      color: #17202a;
+      font: 16px system-ui;
+      padding: 0 1rem;
+    }
+    table { border-collapse: collapse; }
+    th, td {
+      border-bottom: 1px solid #ddd;
+      padding: .75rem;
+      text-align: left;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    th {
+      background: #f4f6f7;
+    }
+    .number { text-align: right; }
+    .flagged { background: #fff3cd; }
+    .flag { color: #8a4b00; }
+    .muted { color: #687078; }
+  </style>
+</head>
+<body>
+  <h1>{{ league }} — {{ date }} Eastern Time</h1>
+  <p class="muted">Odds are mocked.</p>
+  {% if games %}
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Home Team</th>
+        <th class="number">Home Rank</th>
+        <th>Away Team</th>
+        <th class="number">Away Rank</th>
+        <th class="number">Home Odds</th>
+        <th class="number">Away Odds</th>
+        <th class="number">Draw Odds</th>
+        <th>Signal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for game in games %}
+      <tr{% if game.undervalued %} class="flagged"{% endif %}>
+        <td>{{ game.kickoff }}</td>
+        <td>{{ game.home }}</td>
+        <td class="number">
+          {% if game.home_rank %}
+          {{ game.home_rank }}/{{ game.home_rank_total }}
+          {% else %}—{% endif %}
+        </td>
+        <td>{{ game.away }}</td>
+        <td class="number">
+          {% if game.away_rank %}
+          {{ game.away_rank }}/{{ game.away_rank_total }}
+          {% else %}—{% endif %}
+        </td>
+        <td class="number">
+          {% if game.odds %}{{ game.odds.home }}{% else %}—{% endif %}
+        </td>
+        <td class="number">
+          {% if game.odds %}{{ game.odds.away }}{% else %}—{% endif %}
+        </td>
+        <td class="number">
+          {% if game.odds %}{{ game.odds.draw }}{% else %}—{% endif %}
+        </td>
+        <td>
+          {% if game.undervalued %}
+          <span class="flag">
+            Undervalued: {{ game.undervalued }}
+          </span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No {{ league }} games were scheduled on this date.</p>
+  {% endif %}
+</body>
+</html>
