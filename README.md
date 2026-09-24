@@ -15,8 +15,8 @@ API_FOOTBALL_API_KEY=<key> uv run main.py
 
 The script gets sports data from Api-Football and generates `index.html`.
 
-"Favorite Undervalued" means the higher-ranked team has lower implied win
-probability than its lower-ranked opponent.
+"Undervalued" means the higher-ranked team has lower implied win probability
+than its lower-ranked opponent.
 
 ## Caching
 
